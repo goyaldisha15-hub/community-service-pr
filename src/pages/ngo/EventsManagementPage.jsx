@@ -1,0 +1,3 @@
+import { Link } from 'react-router-dom'
+import { useEvents } from '../../context/EventContext'
+export default function EventsManagementPage() { const { events, registrations } = useEvents(); return <section><div className="page-title"><h1>Events Management</h1><Link className="primary-link" to="/ngo/events/new">Create Event</Link></div><div className="card-grid">{events.map((event) => <Link className="event-card event-link" key={event.id} to={`/ngo/events/${event.id}`}><h2>{event.title}</h2><p>{event.date} · {event.location}</p><p>{registrations.filter((item) => item.eventId === event.id).length} registered · {(event.memberIds ?? []).length} NGO Members assigned</p><span>View event details →</span></Link>)}</div></section> }

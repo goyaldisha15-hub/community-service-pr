@@ -1,0 +1,3 @@
+import { Link } from 'react-router-dom'
+import { useEvents } from '../../context/EventContext'
+export default function EventsListPage() { const { events, registrations } = useEvents(); return <section><h1>Available Events</h1><div className="card-grid">{events.map((event) => <article className="event-card" key={event.id}><h2>{event.title}</h2><p>{event.description}</p><p>📅 {event.date} · {event.time}</p><p>📍 {event.location}</p><p>{registrations.filter((item) => item.eventId === event.id).length}/{event.capacity} registered</p><Link className="primary-link" to={`/volunteer/events/${event.id}`}>View event</Link></article>)}</div></section> }
