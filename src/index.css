@@ -1,6 +1,2 @@
-:root { color: #17212b; background: #f4f7f8; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-synthesis: none; text-rendering: optimizeLegibility; }
-* { box-sizing: border-box; }
-body { margin: 0; min-width: 320px; }
-button, input, select, textarea { font: inherit; }
-button { -webkit-tap-highlight-color: transparent; }
-button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #72b89a; outline-offset: 2px; }
+:root { --mist: #cad2c5; --sage: #84a98c; --teal: #52796f; --deep-teal: #354f52; --ink: #2f3e46; --canvas: #cad2c5; --panel: #eef2ed; --field: #e6ece3; --muted: #354f52; --border: #52796f; --warning: #684600; color: var(--ink); background: var(--canvas); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+* { box-sizing: border-box; } body { margin: 0; min-width: 320px; } button, input, select, textarea { font: inherit; } button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid rgb(132 169 140 / 65%); outline-offset: 2px; }

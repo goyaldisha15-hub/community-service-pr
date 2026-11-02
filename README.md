@@ -1,16 +1,56 @@
-# React + Vite
+# NGO Connect Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Mobile-friendly event registration and QR attendance frontend for NGOs.
 
-Currently, two official plugins are available:
+## Run locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```powershell
+npm install
+npm run dev
+```
 
-## React Compiler
+## Current roles
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- `volunteer` — finds events, registers, scans a live event QR, and views attendance.
+- `ngo_admin` — creates and manages events, assigns NGO Members, generates QR codes, reviews registrations, attendance, and reports.
+- `ngo_member` — displays QR codes and views volunteers only for assigned events.
 
-## Expanding the Oxlint configuration
+## Frontend data mode
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+Until a backend is connected, the app stores demo accounts, events, registrations, QR tokens, and attendance in browser `localStorage`.
+
+This is only for frontend development. Passwords and attendance data must move to the backend before production use.
+
+## Backend handoff
+
+Set this environment variable after your Express API is running:
+
+```text
+VITE_API_URL=http://localhost:5000/api
+```
+
+The frontend API contract is in `src/services/api.js`.
+
+| Feature | Endpoint |
+| --- | --- |
+| Login | `POST /auth/login` |
+| Sign up | `POST /auth/register` |
+| Logout | `POST /auth/logout` |
+| Events | `GET /events`, `POST /events` |
+| Edit event | `PATCH /events/:eventId` |
+| Generate event QR | `POST /events/:eventId/qr` |
+| Event registrations | `GET /events/:eventId/registrations` |
+| QR check-in | `POST /events/:eventId/attendance` |
+
+## Important folders
+
+```text
+src/
+├── pages/       # Screens grouped by user role
+├── components/  # Reusable route guards and UI pieces
+├── context/     # Temporary frontend state and localStorage demo data
+├── services/    # Future Express API calls
+├── layouts/     # Public and signed-in page layouts
+├── routes/      # Role-protected application routes
+└── utils/       # Shared roles and event status constants
+```

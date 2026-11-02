@@ -8,9 +8,19 @@ const initialEvents = [
   { id: 'tree-plantation', title: 'Tree Plantation Day', description: 'Help plant native trees in the community.', date: '2026-10-12', time: '07:30', location: 'Riverfront Garden', capacity: 80, status: 'live', memberIds: [], memberAssignments: [], qrToken: null, qrUpdatedAt: null },
 ]
 function read(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback } catch { return fallback } }
+function normalizeEvent(event) {
+  return {
+    ...event,
+    status: event.status === 'published' ? 'live' : (event.status ?? 'draft'),
+    memberIds: event.memberIds ?? [],
+    memberAssignments: event.memberAssignments ?? [],
+    qrToken: event.qrToken ?? null,
+    qrUpdatedAt: event.qrUpdatedAt ?? null,
+  }
+}
 
 export function EventProvider({ children }) {
-  const [events, setEvents] = useState(() => read(EVENTS_KEY, initialEvents))
+  const [events, setEvents] = useState(() => read(EVENTS_KEY, initialEvents).map(normalizeEvent))
   const [registrations, setRegistrations] = useState(() => read(REGISTRATIONS_KEY, []))
   useEffect(() => localStorage.setItem(EVENTS_KEY, JSON.stringify(events)), [events])
   useEffect(() => localStorage.setItem(REGISTRATIONS_KEY, JSON.stringify(registrations)), [registrations])
@@ -22,7 +32,7 @@ export function EventProvider({ children }) {
   function registerForEvent(eventId, volunteer) {
     if (registrations.some((item) => item.eventId === eventId && item.volunteerId === volunteer.id)) throw new Error('You are already registered for this event.')
     const event = events.find((item) => item.id === eventId); const count = registrations.filter((item) => item.eventId === eventId).length
-    if (!event || count >= event.capacity) throw new Error('This event is no longer available.')
+    if (!event || event.status !== 'live' || count >= event.capacity) throw new Error('This event is not open for registration.')
     setRegistrations((current) => [...current, { id: crypto.randomUUID(), eventId, volunteerId: volunteer.id, volunteerName: volunteer.name, volunteerEmail: volunteer.email, attended: false, checkedInAt: null }])
   }
   function markAttendance(eventId, volunteerId) {
