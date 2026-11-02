@@ -3,5 +3,5 @@ import { useAuth } from '../context/AuthContext'
 
 export default function PublicLayout() {
   const { user } = useAuth()
-  return <><header className="public-header"><Link className="brand" to="/">NGO Connect</Link><nav>{user ? <Link to="/">Dashboard</Link> : <><Link to="/login">Login</Link><Link to="/signup">Sign Up</Link></>}</nav></header><Outlet /></>
+  return <><header className="public-header"><Link className="brand" to="/"><span className="brand-mark" aria-hidden="true">N</span>NGO Connect</Link><nav>{user ? <Link to="/">Dashboard</Link> : <><Link to="/login">Login</Link><Link to="/signup">Sign Up</Link></>}</nav></header><Outlet /></>
 }
